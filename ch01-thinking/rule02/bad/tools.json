@@ -1,0 +1,83 @@
+{
+  "_comment": "BAD: 太りすぎたツール群。8 ツールがファイル探索という同じ目的をオーバーラップしてカバーしている。人間のエンジニアでも『今どれを呼ぶべきか』を即答できない。Anthropic Engineering Blog (2025-09-29): 'If a human engineer can't definitively say which tool should be used in a given situation, an AI agent can't be expected to do better.'",
+  "tools": [
+    {
+      "name": "search_file",
+      "description": "ファイル名でリポジトリ内を検索する。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "query": { "type": "string" } },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "find_file",
+      "description": "ファイル名でリポジトリ内を検索する (search_file と似ているが、こちらは大文字小文字を区別しない)。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "name": { "type": "string" } },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "glob_file",
+      "description": "glob パターン (例: src/**/*.ts) でファイルを列挙する。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "pattern": { "type": "string" } },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "name": "grep_file",
+      "description": "ファイル内容を grep する。ファイル名は事前に絞っておくこと。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "regex": { "type": "string" },
+          "files": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["regex", "files"]
+      }
+    },
+    {
+      "name": "locate_file",
+      "description": "ファイル名でリポジトリ内を検索する (キャッシュ済み index を使うため高速)。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "name": { "type": "string" } },
+        "required": ["name"]
+      }
+    },
+    {
+      "name": "fuzzy_find",
+      "description": "ファイル名で fuzzy match 検索する。タイポに強い。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "query": { "type": "string" } },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "ls_directory",
+      "description": "ディレクトリの中身を一覧表示する。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" } },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "tree_directory",
+      "description": "ディレクトリツリーを再帰的に表示する。深さ指定可能。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "depth": { "type": "integer" }
+        },
+        "required": ["path"]
+      }
+    }
+  ]
+}

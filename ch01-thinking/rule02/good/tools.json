@@ -1,0 +1,60 @@
+{
+  "_comment": "GOOD: 役割が直交する 5 ツールに整理。人間のエンジニアが『今どれを呼ぶか』を即答できる。description で『いつ使うか / いつ使わないか』も明記し、選択の曖昧さを減らす。",
+  "tools": [
+    {
+      "name": "find_path",
+      "description": "ファイル名またはディレクトリ名でパスを探す。glob パターン (src/**/*.ts) も使える。ファイルの『場所』を知りたいときに使う。ファイルの『中身』を読みたいときは read_file を使う。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "pattern": { "type": "string" } },
+        "required": ["pattern"]
+      }
+    },
+    {
+      "name": "grep_content",
+      "description": "ファイルの中身を正規表現で検索する。コードの『どこに何が書かれているか』を知りたいときに使う。ファイル名で絞り込みたい場合は file_glob を渡す。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "regex": { "type": "string" },
+          "file_glob": { "type": "string" }
+        },
+        "required": ["regex"]
+      }
+    },
+    {
+      "name": "read_file",
+      "description": "ファイルの中身を読む。範囲指定 (start_line / end_line) で部分読みも可能。ファイルが大きい場合は範囲指定を推奨する。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "start_line": { "type": "integer" },
+          "end_line": { "type": "integer" }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "list_directory",
+      "description": "ディレクトリの直下を一覧する (再帰しない)。プロジェクト構造の把握に使う。再帰的に深く探索したい場合は find_path に glob を渡す方が効率的。",
+      "input_schema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" } },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "run_command",
+      "description": "シェルコマンドを実行する。テスト実行 (npm test)・型チェック (npm run typecheck)・git 操作などに使う。ファイルの読み書きは read_file / write_file を使うこと (cat / echo > は使わない)。",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "command": { "type": "string" },
+          "cwd": { "type": "string" }
+        },
+        "required": ["command"]
+      }
+    }
+  ]
+}
