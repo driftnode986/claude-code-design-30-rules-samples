@@ -7,3 +7,12 @@ node_modules/
 .env
 .env.local
 *.log
+
+# Global .gitignore excludes CLAUDE.md / AGENTS.md / .claude/ by default,
+# but this repo is a *sample library* whose entire point is to ship
+# example CLAUDE.md / AGENTS.md files. Re-include them under chNN-*/.
+!ch??-*/**/CLAUDE.md
+!ch??-*/**/AGENTS.md
+!ch??-*/**/.claude/
+!templates/**/CLAUDE.md
+!templates/**/AGENTS.md
