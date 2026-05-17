@@ -1,0 +1,6 @@
+{
+  "claudeMdExcludes": [
+    "**/legacy-archive/CLAUDE.md",
+    "**/experiments/**/CLAUDE.md"
+  ]
+}
