@@ -1,0 +1,139 @@
+{
+  "project": "claude-ai-clone-mini",
+  "schema_version": 1,
+  "features": [
+    {
+      "id": "f001",
+      "category": "core",
+      "priority": "P0",
+      "description": "New chat button creates a fresh conversation",
+      "steps": [
+        "Navigate to main interface",
+        "Click the 'New Chat' button",
+        "Verify a new conversation is created",
+        "Check that chat area shows welcome state",
+        "Verify conversation appears in sidebar"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f002",
+      "category": "core",
+      "priority": "P0",
+      "description": "User can type a message and press Enter to send",
+      "steps": [
+        "Open a new chat",
+        "Type a query in the input box",
+        "Press Enter",
+        "Verify the user message appears in the chat area",
+        "Verify the AI response streams back"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f003",
+      "category": "core",
+      "priority": "P0",
+      "description": "Conversation history persists across page reloads",
+      "steps": [
+        "Send 3 messages in a chat",
+        "Reload the page",
+        "Verify all 3 messages are still visible",
+        "Verify the conversation still appears in the sidebar"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f004",
+      "category": "ui",
+      "priority": "P1",
+      "description": "Theme switching between light and dark mode",
+      "steps": [
+        "Click the theme toggle in settings",
+        "Verify the UI switches to dark mode immediately",
+        "Reload the page",
+        "Verify the theme preference is persisted"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f005",
+      "category": "ui",
+      "priority": "P1",
+      "description": "Sidebar collapses and expands on narrow screens",
+      "steps": [
+        "Resize the browser window to <768px width",
+        "Verify the sidebar auto-collapses",
+        "Click the hamburger icon",
+        "Verify the sidebar expands as an overlay"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f006",
+      "category": "functional",
+      "priority": "P1",
+      "description": "Delete a conversation from the sidebar",
+      "steps": [
+        "Right-click a conversation in the sidebar",
+        "Select 'Delete'",
+        "Confirm the deletion in the dialog",
+        "Verify the conversation is removed from the sidebar",
+        "Verify it cannot be accessed via URL"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f007",
+      "category": "functional",
+      "priority": "P2",
+      "description": "Search conversations by keyword in sidebar",
+      "steps": [
+        "Type a keyword in the sidebar search box",
+        "Verify matching conversations are filtered",
+        "Verify non-matching conversations are hidden",
+        "Clear the search to see all conversations again"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f008",
+      "category": "accessibility",
+      "priority": "P2",
+      "description": "Keyboard shortcut Cmd+K opens new chat",
+      "steps": [
+        "Press Cmd+K (or Ctrl+K on Linux/Windows)",
+        "Verify a new chat is created immediately",
+        "Verify the input box is focused"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f009",
+      "category": "error-handling",
+      "priority": "P1",
+      "description": "Network error during message send shows retry option",
+      "steps": [
+        "Simulate network offline",
+        "Try to send a message",
+        "Verify an error banner appears with 'Retry' button",
+        "Restore network and click 'Retry'",
+        "Verify the message is sent successfully"
+      ],
+      "passes": false
+    },
+    {
+      "id": "f010",
+      "category": "performance",
+      "priority": "P2",
+      "description": "Initial page load under 2 seconds on 3G simulation",
+      "steps": [
+        "Open DevTools Network tab and throttle to 'Slow 3G'",
+        "Hard reload the page",
+        "Verify the first contentful paint is < 2.0 seconds",
+        "Verify the main UI is interactive within 3.0 seconds"
+      ],
+      "passes": false
+    }
+  ]
+}

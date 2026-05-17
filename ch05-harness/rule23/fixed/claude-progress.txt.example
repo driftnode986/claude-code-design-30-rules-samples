@@ -1,0 +1,66 @@
+# claude-progress.txt — 二段「ハーネス」の永続化ログ
+#
+# 毎セッション、終了時に 1 エントリ追記する。
+# git history と相補的: git は code state、progress は agent intent。
+#
+# フォーマット:
+#   ## YYYY-MM-DD HH:MM session-NNN [INITIALIZER | CODING]
+#   <セッションで何をしたか 1-3 行>
+#
+#   Tests: <E2E test 結果>
+#   Files changed: <list>
+#   Next priority candidates: <feature_list.json の next P0/P1>
+
+
+## 2026-05-17 10:00 session-001 [INITIALIZER]
+Set up the long-running project scaffolding for claude-ai-clone-mini.
+
+- Created feature_list.json with 10 features (P0: f001-f003, P1: f004-f006, f009; P2: f007-f008, f010)
+- Wrote init.sh: starts npm run dev + 3 smoke checks (/, /api/health)
+- Wrote this progress file
+- Initial git commit: 8f3a2e1 "scaffold: project setup with init.sh + feature_list.json"
+
+No features implemented yet. Coding agent should start with f001.
+
+Tests: N/A (no features yet)
+Files changed: init.sh, feature_list.json, claude-progress.txt, package.json, app/page.tsx
+Next priority candidates: f001 (new chat button), f002 (send message), f003 (history persistence)
+
+
+## 2026-05-17 14:30 session-002 [CODING]
+Implemented f001: "New chat button creates a fresh conversation".
+
+- Added Sidebar component with 'New Chat' button at top
+- Wired button to create a new conversation entry in Zustand store
+- Verified end-to-end via Playwright: clicked the button, confirmed
+  new conversation appeared in sidebar, chat area reset to welcome state
+- Updated feature_list.json: f001 passes:true
+
+Tests: E2E passed (Playwright, headless Chrome, 1.2s)
+Files changed: app/page.tsx, components/Sidebar.tsx, lib/store.ts, feature_list.json, claude-progress.txt
+Git commit: 2a91f4c "feat: new chat button (session-002)"
+Next priority candidates: f002 (send message), f003 (history persistence)
+
+
+## 2026-05-17 17:15 session-003 [CODING]
+Started f002: "User can type a message and press Enter to send".
+
+Partial progress: input box + Enter handler implemented, but
+streaming response from /api/chat is not yet wired. Decided to stop
+here to keep the session focused on one sub-task.
+
+- Added <input> with onKeyDown handler in ChatInput component
+- Verified: user message appears in chat area after Enter
+- Streaming response from /api/chat: BLOCKED on /api/chat being a stub
+
+E2E test status: half-passing. User message renders, AI response stream
+not yet connected.
+
+Did NOT change feature_list.json (f002 still passes:false).
+
+Tests: E2E partial (Playwright detected missing /api/chat response)
+Files changed: components/ChatInput.tsx, app/page.tsx
+Git commit: 7c4d8b9 "wip: chat input UI for f002 (session-003)"
+Blocker: /api/chat is currently a 501 stub. Next session should
+implement /api/chat with Anthropic SDK before marking f002 passes:true.
+Next priority candidates: f002 (continue), f003 (history persistence)

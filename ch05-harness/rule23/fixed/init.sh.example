@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+# init.sh — 二段「ハーネス」の最初の artifact
+#
+# 任務:
+#   1. dev server を起動 (既起動なら何もしない、冪等)
+#   2. basic E2E test を 1 件走らせる
+#   3. exit 0 が「環境が健全」、非 0 が「壊れている」のシグナル
+#
+# coding agent は毎セッションの最初にこのスクリプトを実行し、
+# E2E test が PASS することを確認してから新機能の実装に進む。
+
+set -euo pipefail
+
+PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$PROJECT_DIR"
+
+# 1. dev server を起動 (port 3000 が空いていれば)
+if ! lsof -i :3000 >/dev/null 2>&1; then
+  echo "Starting dev server on port 3000..."
+  npm run dev >dev-server.log 2>&1 &
+  echo $! >.dev-server.pid
+
+  # ヘルスチェック 30 秒待機
+  for i in {1..30}; do
+    if curl -sf http://localhost:3000/api/health >/dev/null 2>&1; then
+      echo "Dev server ready (took ${i}s)"
+      break
+    fi
+    sleep 1
+  done
+else
+  echo "Dev server already running on port 3000, reusing."
+fi
+
+# 2. basic E2E test (smoke test)
+# - / にアクセスして HTTP 200 が返るか
+# - HTML に <title> タグが含まれるか
+# - /api/health が { ok: true } を返すか
+
+echo "Running basic E2E smoke test..."
+
+http_status="$(curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/)"
+if [[ "$http_status" != "200" ]]; then
+  echo "FAIL: / returned $http_status (expected 200)"
+  exit 1
+fi
+
+html_body="$(curl -s http://localhost:3000/)"
+if ! grep -q '<title>' <<<"$html_body"; then
+  echo "FAIL: / did not contain <title> tag"
+  exit 1
+fi
+
+health_response="$(curl -sf http://localhost:3000/api/health)"
+if ! grep -q '"ok"[[:space:]]*:[[:space:]]*true' <<<"$health_response"; then
+  echo "FAIL: /api/health did not return { ok: true }"
+  echo "      response: $health_response"
+  exit 1
+fi
+
+echo "OK: basic E2E smoke test passed."
+echo ""
+echo "Next step: read feature_list.json and pick the highest-priority"
+echo "feature with passes:false. Verify it end-to-end before marking"
+echo "passes:true."
+
+exit 0
