@@ -104,6 +104,6 @@
 
 ## ヘルスチェック
 
-- `/health` (認証不要) — 自身の生死のみ
-- `/health/deep` (認証不要、内部 IP のみ) — DB/Redis/外部 API の疎通確認
+- `/health` (認証不要): 自身の生死のみ
+- `/health/deep` (認証不要、内部 IP のみ): DB/Redis/外部 API の疎通確認
 - 両方とも JSON で `{ status: "ok" | "degraded" | "down", checks: { ... } }`

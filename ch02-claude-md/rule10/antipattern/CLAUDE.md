@@ -1,6 +1,6 @@
 # CLAUDE.md (rule10-antipattern)
 
-> 「短くしたつもり」の CLAUDE.md。実体は @import で 6 ファイル合計 870 行が起動時に展開される。
+> 「短くしたつもり」の CLAUDE.md。実体は @import で 6 ファイル合計 589 行が起動時に展開される。
 
 ## プロジェクト概要
 

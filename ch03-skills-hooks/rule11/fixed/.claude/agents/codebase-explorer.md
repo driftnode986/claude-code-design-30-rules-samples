@@ -30,8 +30,8 @@ You are a codebase exploration specialist. Your job is to find all usages of a g
 主要なグループ: <K> 個
 
 ### グループ 1: <分類名>
-- `src/foo.ts:42` — 使用文脈の 1 行説明
-- `src/bar.ts:108` — 同上
+- `src/foo.ts:42`: 使用文脈の 1 行説明
+- `src/bar.ts:108`: 同上
 
 ### グループ 2: <分類名>
 - ...

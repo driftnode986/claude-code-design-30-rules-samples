@@ -4,10 +4,10 @@
 
 ## 構成
 
-- `antipattern/` — CLAUDE.md 60 行 + `@import` 6 本で「軽くなった」と誤解した例
-  - 実体は **6 ファイル合計 870 行が起動時に展開される**
+- `antipattern/`: CLAUDE.md 60 行 + `@import` 6 本で「軽くなった」と誤解した例
+  - 実体は **6 ファイル合計 589 行が起動時に展開される**
   - 公式 docs (`memory.md` の Size セクション) に明記: `"imported files still load and enter the context window at launch"`
-- `fixed/` — 同じ知識を **コンテキスト読み込みタイミング** で振り分けた例
+- `fixed/`: 同じ知識を **コンテキスト読み込みタイミング** で振り分けた例
   - 静的事実 → CLAUDE.md (200 行以内に圧縮)
   - パス固有のルール → `.claude/rules/<topic>.md` の `paths:` frontmatter
   - 呼び出し型手順 → `.claude/skills/<name>/SKILL.md`
