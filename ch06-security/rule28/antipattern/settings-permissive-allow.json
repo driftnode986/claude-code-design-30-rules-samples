@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "defaultMode": "auto",
+    "allow": [
+      "Bash(*)",
+      "Bash(npm *)",
+      "Bash(python *)",
+      "Agent(Explore)",
+      "Agent(Plan)"
+    ]
+  }
+}

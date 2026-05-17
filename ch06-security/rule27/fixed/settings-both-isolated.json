@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits"
+  },
+  "sandbox": {
+    "enabled": true,
+    "failIfUnavailable": true,
+    "allowUnsandboxedCommands": false,
+    "filesystem": {
+      "allowWrite": ["~/.kube", "/tmp/build"],
+      "denyRead": ["~/.ssh", "~/.aws", "~/.config/gcloud"],
+      "allowRead": ["./"]
+    },
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "api.github.com"
+      ],
+      "deniedDomains": [
+        "github.com"
+      ],
+      "allowManagedDomainsOnly": true
+    }
+  }
+}

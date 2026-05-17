@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits"
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowWrite": ["./build", "./node_modules"]
+    }
+  }
+}

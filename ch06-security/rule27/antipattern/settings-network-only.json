@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits"
+  },
+  "sandbox": {
+    "enabled": true,
+    "filesystem": {
+      "allowWrite": ["~/", "/tmp", "/var/tmp"]
+    },
+    "network": {
+      "allowedDomains": [
+        "registry.npmjs.org",
+        "github.com",
+        "api.github.com"
+      ]
+    }
+  }
+}
