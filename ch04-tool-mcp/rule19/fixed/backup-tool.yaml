@@ -1,0 +1,34 @@
+# 修正後: 絶対パスを inputSchema で required + 先頭 `/` 強制
+
+name: backup_files
+description: |
+  指定ディレクトリのファイルを backup ディレクトリにコピーする。
+  source_dir は必ず先頭が `/` の絶対パス。相対パスを渡された場合はエラーで失敗する。
+inputSchema:
+  type: object
+  properties:
+    source_dir:
+      type: string
+      description: バックアップ元ディレクトリの絶対パス (例 /Users/dev/project/data)
+      pattern: "^/"
+    backup_label:
+      type: string
+      description: バックアップのラベル (timestamped subdirectory に使われる)
+  required: [source_dir, backup_label]
+
+# 内部実装 (擬似コード):
+#   if (!path.isAbsolute(input.source_dir)) {
+#     throw new Error(
+#       `source_dir must be an absolute path, got: ${input.source_dir}. ` +
+#       `Use $CLAUDE_PROJECT_DIR or pwd to construct the absolute path.`
+#     )
+#   }
+#   const src = input.source_dir
+#   const dst = `/var/backups/${input.backup_label}-${Date.now()}`
+#   fs.cpSync(src, dst, { recursive: true })
+#
+# 利点:
+# - inputSchema の pattern `^/` で JSON Schema validation 段階で reject
+# - サーバー側の path.isAbsolute() で二重防御
+# - エラーメッセージで「$CLAUDE_PROJECT_DIR を使え」と Claude に指示
+# - cwd 状態に依存しないため、Subagent / Hook / Bash subshell からの呼び出しでも一意に解釈できる

@@ -1,0 +1,46 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__crm-server__crm_accounts_search",
+      "mcp__crm-server__crm_accounts_read",
+      "mcp__crm-server__crm_contacts_search",
+      "mcp__crm-server__crm_contacts_read",
+      "mcp__crm-server__crm_deals_search",
+      "mcp__mail-server__mail_search",
+      "mcp__mail-server__mail_read",
+      "mcp__kb-server__kb_articles_search",
+      "mcp__kb-server__kb_articles_read"
+    ],
+    "ask": [
+      "mcp__crm-server__crm_deals_update_phase",
+      "mcp__crm-server__crm_notes_write",
+      "mcp__mail-server__mail_draft_create",
+      "mcp__mail-server__mail_flag_update",
+      "mcp__kb-server__kb_articles_create",
+      "mcp__kb-server__kb_articles_update_body"
+    ],
+    "deny": []
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__crm-server__crm_.*_(write|update|create).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/local/bin/audit-crm-write.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*_(create|write|update).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/local/bin/audit-any-write.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

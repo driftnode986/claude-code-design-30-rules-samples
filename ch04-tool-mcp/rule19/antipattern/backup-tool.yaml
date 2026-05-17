@@ -1,0 +1,27 @@
+# アンチパターン: 相対パスを受け取り内部で resolve する Tool
+
+name: backup-files
+description: 指定ディレクトリのファイルを backup ディレクトリにコピーする
+inputSchema:
+  type: object
+  properties:
+    source_dir:
+      type: string
+      description: バックアップ元ディレクトリ (相対パスでも絶対パスでも可)
+    backup_label:
+      type: string
+      description: バックアップのラベル (timestamped subdirectory に使われる)
+  required: [source_dir, backup_label]
+
+# 内部実装 (擬似コード):
+#   src = path.resolve(process.cwd(), input.source_dir)
+#   dst = `/var/backups/${input.backup_label}-${Date.now()}`
+#   fs.cpSync(src, dst, { recursive: true })
+#
+# 問題:
+# - process.cwd() は呼び出し時点の cwd に依存する
+# - Subagent 起動時に cwd を継承するか親と分離するかは状況による
+# - Bash subshell で cd した後、Subagent 内から backup-files を呼ぶと、
+#   開発者が想定したディレクトリと異なる src を backup してしまう
+# - Hook 経由で起動された場合、Hook script の cwd と Claude セッションの cwd が
+#   異なる可能性があり、デバッグが困難
