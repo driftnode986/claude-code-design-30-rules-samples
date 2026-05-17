@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "project": "claude.ai clone",
+  "description": "feature_list.json — 構造化進捗層 (L3). coding agent はこのファイルを read して `passes: false` の中から次タスクを選ぶ。",
+  "convention": {
+    "id": "f-NNN 形式の通し番号",
+    "category": "functional | ui | persistence | integration | a11y",
+    "passes": "true = テスト通過済み, false = 未実装 or 失敗中",
+    "verified_at": "passes=true に切り替えた時の git commit SHA"
+  },
+  "features": [
+    {
+      "id": "f-001",
+      "category": "ui",
+      "description": "Sidebar に conversation リストが表示される",
+      "steps": [
+        "main interface に navigate",
+        "左サイドバーに conversation のリストが出る",
+        "各 item は読みやすい行高でクリック可能"
+      ],
+      "passes": true,
+      "verified_at": "a3b2c41"
+    },
+    {
+      "id": "f-002",
+      "category": "functional",
+      "description": "Sidebar の conversation をクリックすると messages area が切り替わる",
+      "steps": [
+        "Sidebar の任意の conversation を click",
+        "messages area の内容が選択した conversation のものに変わる",
+        "active 状態の視覚フィードバックがある"
+      ],
+      "passes": true,
+      "verified_at": "e8b2c33"
+    },
+    {
+      "id": "f-003",
+      "category": "functional",
+      "description": "メッセージ送信フォームで enter 送信できる",
+      "steps": [
+        "MessageInput に textarea が表示される",
+        "テキストを入力して enter で送信",
+        "shift+enter は改行のみ"
+      ],
+      "passes": true,
+      "verified_at": "f1c8de4"
+    },
+    {
+      "id": "f-004",
+      "category": "ui",
+      "description": "メッセージ送信中の loading state を表示する",
+      "steps": [
+        "送信ボタンを押す",
+        "spinner が表示される",
+        "送信中は送信ボタンが disabled になる"
+      ],
+      "passes": true,
+      "verified_at": "a2b91c7"
+    },
+    {
+      "id": "f-005",
+      "category": "ui",
+      "description": "Theme を light / dark で切り替えられる",
+      "steps": [
+        "ヘッダーに theme toggle ボタンがある",
+        "クリックで light <-> dark を切り替える",
+        "切り替え時に flicker しない"
+      ],
+      "passes": false,
+      "verified_at": null
+    },
+    {
+      "id": "f-006",
+      "category": "persistence",
+      "description": "Theme 設定が localStorage に永続化される",
+      "steps": [
+        "theme を dark に切り替える",
+        "ブラウザをリロード",
+        "リロード後も dark のままになる"
+      ],
+      "passes": false,
+      "verified_at": null
+    },
+    {
+      "id": "f-007",
+      "category": "integration",
+      "description": "AI 応答を実 API から取得する (現状はスタブ)",
+      "steps": [
+        "メッセージを送信",
+        "API endpoint がリクエストを受ける",
+        "AI 応答が messages area に流れてくる (streaming)"
+      ],
+      "passes": false,
+      "verified_at": null
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+============================================================
+git log --oneline -20 のサンプル
+project: claude.ai clone
+============================================================
+
+このファイルは Rule 24 解説用のサンプルです。実プロジェクトでは
+`git log --oneline -20` をそのまま読んでください。
+
+commit 粒度のルール:
+- 1 feature = 1-3 commit (feature_list.json の f-NNN と紐付けやすく)
+- commit message に `f-NNN` を含めると、後で git log | grep で抽出可能
+- session ごとに最低 1 commit (空 commit でも OK、handoff のマーカーとして)
+
+============================================================
+
+a2b91c7 feat(message): f-004 loading state with spinner during send
+f1c8de4 feat(message): f-003 MessageInput with enter/shift+enter
+e8b2c33 feat(sidebar): f-002 conversation switching updates messages
+d4a567e refactor(sidebar): convert list items to Link + onClick
+c9f2018 feat(context): ConversationContext + Provider wrap
+b7e891f style(sidebar): adjust tailwind for readable line-height
+a3b2c41 feat(sidebar): f-001 initial sidebar with conversation list
+9d8e7f6 chore: setup tailwind + globals.css
+8c7b6a5 chore: setup Next.js 14 with App Router
+7b6a5d4 chore: initial commit (package.json + tsconfig.json)
+
+============================================================
+
+agent が起動時に読む情報:
+
+1. `pwd` でプロジェクトルートを確認
+2. `read claude-progress.txt` でナラティブログを取得
+3. `read feature_list.json` で `passes: false` の機能リストを取得
+4. `git log --oneline -20` で直近の commit 粒度を把握
+5. `git status` で未コミット変更を確認 (理想は clean)
+6. `init.sh` を実行して dev server を起動
+
+この 6 ステップで fresh context window でも prior session の続きから
+作業を再開できる状態になります。

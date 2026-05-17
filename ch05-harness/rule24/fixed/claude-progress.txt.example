@@ -1,0 +1,89 @@
+============================================================
+claude-progress.txt — session handoff log
+project: claude.ai clone
+============================================================
+
+このファイルは coding agent が **毎セッション冒頭で必ず読む**
+ハンドオフログです。新しいエントリは **ファイル末尾に追加**
+してください (時系列順、最新が下)。
+
+スキーマ (1 エントリ = 3 ブロック):
+
+  ## YYYY-MM-DD HH:MM — <セッションテーマ 1 行>
+
+  ### Status
+  - <このセッション終了時点でのプロジェクト全体の状況、3-5 行>
+
+  ### Done (このセッションでやったこと)
+  - <粒度: feature 単位、コミット粒度と一致させる>
+  - <git の short SHA を併記すると追跡しやすい>
+
+  ### Next (次セッションが最初に手をつけるべきこと)
+  - <優先度順、1-3 件>
+  - <ブロッカーがあれば明示する>
+
+直近 3-5 セッション分を残し、それ以前は git history に任せます。
+過去 entry の削除は OK ですが、削除する場合は `git log` で復元できる
+状態であることを確認してください。
+
+============================================================
+
+## 2026-05-15 09:00 — sidebar の実装
+
+### Status
+- Next.js 14 のセットアップ完了。`src/app/` で App Router 構成
+- sidebar の hardcode 版は表示できる状態
+- メッセージ送信フォームは未着手
+
+### Done
+- `src/components/Sidebar.tsx` 新規作成 (a3b2c41)
+- conversation list の hardcode を表示 (a3b2c41)
+- sidebar の Tailwind スタイル調整 (b7e891f)
+
+### Next
+- ConversationContext を `src/contexts/` に新規作成
+- sidebar から conversation 切り替えで messages を更新できるようにする
+- localStorage への永続化はこの段階では不要 (Rule 04 「最も単純な解」)
+
+------------------------------------------------------------
+
+## 2026-05-16 10:30 — conversation 切り替えロジック
+
+### Status
+- ConversationContext + Provider 実装完了
+- sidebar をクリックすると messages area が切り替わる
+- 永続化はまだ in-memory のみ (リロードで消える)
+
+### Done
+- `src/contexts/ConversationContext.tsx` 新規 (c9f2018)
+- `src/app/layout.tsx` で Provider を wrap (c9f2018)
+- Sidebar 各項目を Link + onClick に変更 (d4a567e)
+- messages area が active conversation に追従するよう修正 (e8b2c33)
+
+### Next
+- メッセージ送信フォーム (`src/components/MessageInput.tsx`)
+- enter 送信 + shift+enter 改行
+- 送信中の loading state 表示
+
+------------------------------------------------------------
+
+## 2026-05-17 14:00 — メッセージ送信 + loading state
+
+### Status
+- メッセージ送信は実装完了、ローカル state に追記される
+- loading state は spinner 表示まで実装
+- AI 応答 (API 連携) は次セッションでスタブから実装に置き換え予定
+
+### Done
+- `src/components/MessageInput.tsx` 新規 (f1c8de4)
+- enter / shift+enter のキーバインド実装 (f1c8de4)
+- 送信中の spinner + 送信ボタン disabled (a2b91c7)
+- `useTransition` で loading state 管理 (a2b91c7)
+
+### Next
+- theme switch (light / dark) を実装
+- localStorage で theme を永続化
+- SSR で初期 theme が flicker しないように `next-themes` の検討
+
+------------------------------------------------------------
+(以下、git log -20 で復元できる範囲は削除済み)
