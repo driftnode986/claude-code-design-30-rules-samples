@@ -1,0 +1,44 @@
+# Anti-pattern: Fail twice rule を無視した session log
+
+# (架空、ただし実務でよくある対話履歴例)
+# (Claude Code v2.1.139 / Opus 4.7 / Vue 3 + TypeScript)
+
+User: src/components/ProductCard.vue のテストを書いて
+
+Claude: (ProductCard.test.ts を生成、3 ケース)
+
+User: テストが落ちる。`useRoute` がモックされていない
+
+Claude: (vi.mock('vue-router') を追加して再生成)
+
+User: まだ落ちる。`useRoute` の戻り値の型が違う
+
+Claude: (型定義を追加、`RouteLocationNormalizedLoaded` をインポート)
+
+User: import パスが間違っている
+
+Claude: (vue-router からの import を修正)
+
+User: 今度は別のエラー。`mount` で props が渡らない
+
+Claude: (Vue Test Utils の mount 設定を修正)
+
+User: それでも落ちる。Pinia の store も初期化が必要
+
+Claude: (createTestingPinia を追加)
+
+User: ストアの mock がうまく動かない
+
+Claude: (initialState を渡すように修正)
+
+# ── ここまで 6 回連続修正、context が汚染されている ──
+# 1 回目の失敗で「テストが落ちる」と言われたとき、Claude は context に
+# 全ての過去の修正履歴を持ち、それぞれが「失敗アプローチ」として残っている。
+#
+# 公式 best-practices L181: "A clean session with a better prompt almost
+# always outperforms a long session with accumulated corrections."
+#
+# 正しい運用: 2 回目の失敗時点 (User: 「まだ落ちる」) で /clear し、
+# 「Vue 3 + Vitest + Pinia の ProductCard.vue (props: product, onAdd)
+#  のテスト。vue-router 依存あり、Pinia store 依存あり、初期 mount で
+#  3 ケース」と具体化した初期プロンプトで再起動する。
