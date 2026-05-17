@@ -1,0 +1,2 @@
+src/auth/session.ts の SESSION_TIMEOUT を 3600 から 7200 に変えて、
+関連する定数のコメントも更新して。同時に変更箇所を 1 行で commit して。

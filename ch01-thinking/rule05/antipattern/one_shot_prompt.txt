@@ -1,0 +1,39 @@
+プロンプト:
+「OAuth ログイン追加して」
+
+↓ Claude Code の出力 (実際のセッションログ要約):
+
+I'll add Google OAuth to your project. Let me explore the codebase first
+and then implement the changes.
+
+[Read 30+ files across src/auth/, src/middleware/, src/routes/]
+[Edit 28 files including new files for OAuth callback, session storage,
+ token refresh, error handling, type definitions, config validation]
+[Bash: npm install passport passport-google-oauth20 @types/passport]
+[Bash: npm install --save-dev @types/passport-google-oauth20]
+
+✅ Added Google OAuth integration.
+
+Files changed: 28
+- src/auth/oauth-provider.ts (new, 142 lines)
+- src/auth/session.ts (modified)
+- src/middleware/auth-middleware.ts (modified)
+- src/routes/auth.ts (modified)
+- ... [省略、計 28 ファイル]
+
+Next steps:
+1. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env
+2. Run database migrations
+3. Update frontend to call /auth/google
+
+↓ ユーザー: npm test
+↓ テスト 4 件失敗
+
+ユーザーが直面する問題:
+- 28 ファイルの diff をどこから読めばよいか分からない
+- Plan がないので「何を意図して」「何が完成基準で」変更されたかが不明
+- テスト失敗の原因が新規変更のどこにあるか追跡できない
+- commit がまだ作られていない (Claude は Edit までで止まる)
+- revert すると 28 ファイルの変更がすべて消える (中間 checkpoint なし)
+
+結果: 30 分かけた変更を全部 revert して、4 段階リズムでやり直し

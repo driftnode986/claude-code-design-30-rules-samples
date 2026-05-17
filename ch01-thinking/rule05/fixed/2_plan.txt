@@ -1,0 +1,12 @@
+↑ で読んだ既存パターンを踏まえて、Google OAuth を追加したい。
+
+以下を plan として書き出して:
+
+1. 変更ファイル一覧 (新規 / 既存編集を区別)
+2. session flow (ログイン開始 → Google → callback → セッション発行)
+3. テスト計画 (callback handler、token refresh、エラー時の挙動)
+4. 既存パターンとの差分 (新しく持ち込む依存、規約変更)
+
+実装はまだしない。plan をテキストで返して。
+↓ Claude が plan を出力したら、Ctrl+G で plan をエディタに開き、
+人間が直接編集する (例: テストモック方針を「実 Google API は叩かない」に修正)

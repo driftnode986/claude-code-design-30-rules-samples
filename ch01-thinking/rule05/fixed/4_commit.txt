@@ -1,0 +1,14 @@
+変更を commit して PR を開いて。
+
+commit メッセージは以下のフォーマット:
+
+feat(auth): add Google OAuth login
+
+Plan:
+- [編集後の plan のうち、実装した項目を箇条書きでコピー]
+
+Tests:
+- [追加したテストを箇条書き]
+
+PR description にも同じ内容を含めて、レビュアー向けに
+「どの順序で diff を読めばよいか」も書き添えて。
